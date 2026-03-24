@@ -14,9 +14,7 @@ from langchain.chains import GraphCypherQAChain
 from langchain.prompts import PromptTemplate
 from neo4j import GraphDatabase, exceptions as neo4j_exceptions
 
-# ---------------------------------------------------------------------------
 # Configuration & Logging setup
-# ---------------------------------------------------------------------------
 load_dotenv()
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -31,9 +29,7 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
-# ---------------------------------------------------------------------------
 # Prompts
-# ---------------------------------------------------------------------------
 CYPHER_GENERATION_TEMPLATE = """Task: Generate a Cypher statement to query a graph database.
 
 CRITICAL INSTRUCTIONS (FAILURE TO FOLLOW WILL BREAK THE SYSTEM):
@@ -73,9 +69,7 @@ Instructions:
 
 Answer:"""
 
-# ---------------------------------------------------------------------------
 # Models & Globals
-# ---------------------------------------------------------------------------
 class QueryRequest(BaseModel):
     query: str
     history: List[Dict[str, str]] = []
@@ -90,9 +84,7 @@ class RouterOutput(BaseModel):
 # Global state
 app_state: Dict[str, Any] = {}
 
-# ---------------------------------------------------------------------------
 # Core Services & Lifecycle
-# ---------------------------------------------------------------------------
 def resolve_neo4j_database() -> str:
     """Attempts to resolve the default database name if none is provided."""
     if settings.neo4j_database:
@@ -157,9 +149,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Nexus O2C Graph Engine", lifespan=lifespan)
 
-# ---------------------------------------------------------------------------
 # API Endpoints & Logic
-# ---------------------------------------------------------------------------
 def rephrase_and_route(query: str, history: List[Dict[str, str]], llm: ChatGroq) -> RouterOutput:
     """Evaluates query intent and resolves context based on chat history."""
     formatted_history = "\n".join([f"{msg['role']}: {msg['content']}" for msg in history[-4:]]) if history else ""

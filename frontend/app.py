@@ -8,14 +8,12 @@ from pyvis.network import Network
 from neo4j import GraphDatabase, exceptions as neo4j_exceptions
 from dotenv import load_dotenv
 
-# ---------------------------------------------------------------------------
 # Setup & Configuration
-# ---------------------------------------------------------------------------
 load_dotenv()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-FASTAPI_URL = os.getenv("FASTAPI_URL", "http://localhost:8000/chat")
+FASTAPI_URL = os.getenv("FASTAPI_URL", "https://nexus-graph-engine-1.onrender.com/chat")
 NEO4J_URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
 NEO4J_USER = os.getenv("NEO4J_USERNAME", "neo4j")
 NEO4J_PASS = os.getenv("NEO4J_PASSWORD", "password")
@@ -35,9 +33,7 @@ def inject_custom_css():
     </style>
     """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------------------------
 # Graph Logic
-# ---------------------------------------------------------------------------
 @st.cache_resource
 def get_neo4j_driver():
     """Creates and caches a Neo4j driver connection."""
@@ -137,9 +133,7 @@ def generate_graph_html(extracted_ids: tuple) -> str:
     """)
     return net.generate_html()
 
-# ---------------------------------------------------------------------------
 # Main UI Execution
-# ---------------------------------------------------------------------------
 def main():
     inject_custom_css()
     
@@ -207,14 +201,14 @@ def main():
                     st.markdown(answer)
                     st.session_state.messages.append({"role": "assistant", "content": answer})
 
-    # Render Graph (Post-chat sync)
+
     last_assistant_msg = ""
     for msg in reversed(st.session_state.messages):
         if msg["role"] == "assistant":
             last_assistant_msg = msg["content"]
             break
 
-    # Extract IDs (Supports standard alphanumerics)
+
     extracted_ids = tuple(re.findall(r'\b[A-Z0-9]{5,25}\b', last_assistant_msg)) if last_assistant_msg else tuple()
     
     with graph_placeholder.container():

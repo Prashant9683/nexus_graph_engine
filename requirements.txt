@@ -8,3 +8,4 @@ streamlit
 pandas
 python-dotenv
 pyvis
+pydantic-settings

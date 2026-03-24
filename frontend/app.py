@@ -332,8 +332,7 @@ if "messages" in st.session_state:
             break
 
 # Extract alphanumeric IDs to filter the PyVis graph
-extracted_ids = tuple(re.findall(r'\b[A-Z0-9]{8,20}\b', last_assistant_msg)) if last_assistant_msg else tuple()
-
+extracted_ids = tuple(re.findall(r'\b[A-Z0-9]{5,25}\b', last_assistant_msg)) if last_assistant_msg else tuple()
 # Inject the visual back into the placeholder at the top of the column
 with graph_placeholder.container():
     with st.spinner("Rendering graph topology..."):

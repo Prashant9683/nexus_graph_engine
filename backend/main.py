@@ -8,13 +8,12 @@ from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
 
-from langchain_community.graphs import Neo4jGraph
+
+from langchain_neo4j import Neo4jGraph, GraphCypherQAChain
+from langchain_core.prompts import PromptTemplate
 from langchain_groq import ChatGroq
-from langchain.chains import GraphCypherQAChain
-from langchain.prompts import PromptTemplate
 from neo4j import GraphDatabase, exceptions as neo4j_exceptions
 
-# Configuration & Logging setup
 load_dotenv()
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)

@@ -2,8 +2,10 @@ fastapi
 uvicorn
 neo4j
 langchain
+langchain-core
 langchain-community
 langchain-groq
+langchain-neo4j
 streamlit
 pandas
 python-dotenv

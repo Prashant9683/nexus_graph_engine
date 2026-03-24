@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+neo4j
+langchain
+langchain-community
+langchain-groq
+streamlit
+pandas
+python-dotenv
+pyvis
